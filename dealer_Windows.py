@@ -42,6 +42,7 @@ class Dealer:
     def deal_card(self):
         return self.deck.pop(0)
 
+
     def deck_not_empty(self):
         if len(self.deck) > 0:
             return True
@@ -55,6 +56,7 @@ class Game:
         self.dealer = Dealer()
         self.round_count = 1
         self.player_prize = 0
+        self.total_profit = 0
         self.start_Game(client)
 
     def start_Game(self,client):
@@ -65,6 +67,9 @@ class Game:
         while self.dealer.deck_not_empty():
             self.play_round(client)
 
+    def client_comm(self, client, exp):
+        msg = client.recv(1024)
+
     def get_bet(self, client):             # asks the player to send his bet and returns it as int
         client.send(b'send your bet')
         bet = client.recv(1024)
@@ -72,6 +77,9 @@ class Game:
 
     def play_round(self,client):
         bet = self.get_bet(client)
+
+
+
 
 #_________________Game functions END___________________________
 
@@ -96,6 +104,3 @@ if __name__ == "__main__":
     wait_client = threading.Thread(wait_client())
     wait_client.start()
 #_____________________________________________________________________________________
-
-#change
-#change2
