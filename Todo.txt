@@ -1,7 +1,9 @@
 Question for instructor:
 1.	Is it possible to send a custom object?
 	Can it be defined in an external file, and included via imprort? (3 files)
-
+2.	Question about the code:
+	t = threading.Thread(target=Game, args=(client,))# is this legal?
+	can the GC destroy the Game object during its run?
 
 Todo:
 1. Implement the entire game
