@@ -10,7 +10,10 @@ Todo:
 1. Implement the entire game
   V	1.1. client_comm function, for communicating and comparing with expected value b
   V	1.2. change get_bet accordingly
-	1.3. complete the play_round 
-  V	1.4. implement quit
-	1.5. implement war
-	1.6. implement status
+	1.3. complete the play_round - Need to implement the entire war ordeal, 
+  V		1.3.1. implement quit
+		1.3.2. implement war
+  V		1.3.3. implement status
+  V		1.3.4. implement bet
+	1.4  Complete finish_game 
+	1.4. Implement client-side
