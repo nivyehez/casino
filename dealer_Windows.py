@@ -40,8 +40,18 @@ class Dealer:
         self.prize = 0
 
     def deal_card(self):
-        return self.deck.pop(0)
+        try:
+            self.deck.pop(0)
+        except:
+            return False    # deck is empty
 
+    def discard_three(self):
+        try:
+            self.deck.pop(0)
+            self.deck.pop(0)
+            self.deck.pop(0)
+        except:
+            return False
 
     def deck_not_empty(self):
         if len(self.deck) > 0:
@@ -51,35 +61,114 @@ class Dealer:
 
 #_________________Game functions START_________________
 class Game:
-    def __init__(self,client):
+    def __init__(self, client):
         self.client = client
         self.dealer = Dealer()
+        self.player_card = Card()
+        self.dealer_card = Card()
         self.round_count = 1
         self.player_prize = 0
         self.total_profit = 0
         self.start_Game(client)
 
-    def start_Game(self,client):
-        player_card = self.dealer.deal_card()
-        dealer_card = self.dealer.deal_card()
-        self.client.send(b'request accepted. Starting game:\n  Player Card: '
-                    + player_card.get_card().encode())
+    def start_Game(self, client):
+        self.player_card = self.dealer.deal_card()
+        self.dealer_card = self.dealer.deal_card()
+        self.client.send("request accepted. Starting game:\n  Player Card: ".encode()
+                            + player_card.get_card().encode())
         while self.dealer.deck_not_empty():
             self.play_round(client)
 
-    def client_comm(self, client, exp):
-        msg = client.recv(1024)
+        self.print_finish_game()
 
-    def get_bet(self, client):             # asks the player to send his bet and returns it as int
-        client.send(b'send your bet')
-        bet = client.recv(1024)
-        return bet
+    def client_comm(self, exp):
+        #exp is the expected type of message. The type is sent in the 1st letter of the msg. avalable types:
+        #'s' = status
+        #'b' = bet
+        #'o' = war options. The next char can be 'w' or 'f' ( war or forfeit)
+        #'q' = quit
+        msg = self.client.recv(1024).decode() # get the message from client
 
-    def play_round(self,client):
+        while( msg[0] == 's' ):
+            self.send_status()
+            msg = self.client.recv(1024).decode()  # get the message from client
+
+        if( msg[0] == 'q'):
+            self.quit()
+
+        while( exp != msg[0]):
+            self.request_msg_again()
+            msg = self.client.recv(1024).decode()  # get the message from client
+
+        if( exp == msg[0] ):
+            if( exp == 'b' ):
+                bet = msg[1: end]
+                return int(bet)
+
+            if( exp == 'o' ):
+                return msg[1]   # the second char will have to be 'w' or 'f'. It is a part of the protocole
+
+    def quit(self):
+        self.client.send("The game has ended on round: ".encode() + self.round_count.encode() + "!\n".encode()
+                            + "The player has quit.\n".encode() + self.print_player_profit()
+                         + "Thanks for playing.".encode())
+        close(self.client)  # close socket
+        sys.exit()          # close current thread
+
+    def print_player_profit(self):
+        if( self.player_prize >= 0 ):
+            return "Player won: ".encode() + self.player_prize.encode() + "$\n".encode()
+
+        return "Player lost: ".encode() + abs(self.player_prize).encode() + "$\n".encode()
+
+    def request_msg_again(self):
+        self.client.send("Invalid value. please try again".encode())
+
+    def sendStatus(self):
+        self.client.send("Current round: ".encode() + self.round_count.encode() + "\n".encode()
+                         + "Player won: ".encode() + self.player_prize.encode())
+
+
+    def get_bet(self):              # asks the player to send his bet and returns it as int
+        client.send("send your bet".encode())
+        return self.client_comm(self, "b")
+
+    def play_round(self):
         bet = self.get_bet(client)
 
+        if( calc_winner == "player" ):
+            self.player_prize += bet
+            self.client.send("The results of round ".encode() + self.round_count.encode() + ":\n".encode()
+                             + "Player won: ".encode() + bet.encode() + "$\n"
+                             + "Player's card: ".encode() + self.player_card.get_card().encode()
+                             + "Dealer's card: ".encode() + self.dealer_card.get_card().encode())
+
+        if ( calc_winner == "dealer" ):
+            self.player_prize -= bet
+            self.client.send("The results of round ".encode() + self.round_count.encode() + ":\n".encode()
+                             + "Dealer won: ".encode() + bet.encode() + "$\n"
+                             + "Dealer's card: ".encode() + self.dealer_card.get_card().encode() + "\n".encode()
+                             + "Player's card: ".encode() + self.player_card.get_card().encode())
+
+        if( calc_winner == "tie" ):
+            self.client.send("The results of round ".encode() + self.round_count.encode() + "is a tie!\n".encode()
+                             + "Dealer's card: ".encode() + self.dealer_card.get_card().encode() + "\n".encode()
+                             + "Player's card: ".encode() + self.player_card.get_card().encode()
+                             + "The bet: ".encode() + bet.encode() + "$\n".encode()
+                             + "Do you wish to surrender or go to war?".encode())
+            if( self.client_comm("o") == "w"):
+                if( self.dealer.discard_three() == False ):   # if discard failed (deck is empty), end game.
+                    self.finish_game()
+            
 
 
+    def calc_winner(self):
+        if(self.player_card.get_num() > self.dealer_card.get_num()):
+            return "player"
+        if (self.player_card.get_num() < self.dealer_card.get_num()):
+            return "dealer"
+
+        return "tie"
 
 #_________________Game functions END___________________________
 
@@ -94,7 +183,7 @@ def wait_client():
         s.listen(5)               # Now wait for client connection.
         client, addr = s.accept()      # Establish connection with client.
         if (threading.active_count() < 3):
-            t = threading.Thread(target=Game, args=(client,))# is this legal? can the GC destroy the Game object during its run?
+            t = threading.Thread(target=Game, args=(client,))
             t.start()
         else:
              client.send("denied".encode())
