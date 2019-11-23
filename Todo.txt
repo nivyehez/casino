@@ -16,4 +16,4 @@ Todo:
   V		1.3.3. implement status
   V		1.3.4. implement bet
 	1.4  Complete finish_game 
-	1.4. Implement client-side
+	1.5. Implement client-side
