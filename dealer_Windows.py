@@ -142,6 +142,8 @@ class Game:
         return self.client_comm("b")
 
     def play_round(self):
+        
+        self.round_count += 1
         bet = self.get_bet()
 
         if( self.calc_winner() == "player" ):
