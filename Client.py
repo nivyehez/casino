@@ -15,6 +15,7 @@ while True:
         except:
             waiting = False
 
+    #in order to seperate the choices, "denumerated" them from string to a number(code-wise only)
     choice = input("1 - status\n"
                       + "2 - bet\n"
                       + "3 - war\n"
@@ -22,6 +23,7 @@ while True:
                       + "5 - quit\n"
                       + "6 - yes\n"
                       + "7 - no\n")
+    #handling the user's choice.
     if choice == '1':
         s.send("s".encode())
     if choice == '2':
