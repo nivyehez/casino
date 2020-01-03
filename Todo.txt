@@ -5,7 +5,6 @@ Question for instructor:
 	t = threading.Thread(target=Game, args=(client,))# is this legal?
 	can the GC destroy the Game object during its run?
 3. 	View the status in the middle of the game - the meaning is whener the player is able to send a message, or as a general interrupt?
-4. 	Whenever a player bets, should the value of the bet deduct immediatly from his prize pool? (Can't be at profit while surrendering)
 
 Todo:
 1. Implement the entire game
@@ -16,7 +15,5 @@ Todo:
 		1.3.2. implement war
   V		1.3.3. implement status
   V		1.3.4. implement bet
-  V	1.4  Complete finish_game 
+	1.4  Complete finish_game 
 	1.5. Implement client-side
-	1.6. Make sure bet>0
-	1.7. Add "\n"to all of the prints
