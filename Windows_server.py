@@ -128,9 +128,9 @@ class Game:
 
     def print_player_profit(self):
         if( self.player_prize >= 0 ):
-            return "Player won: ".encode() + str(self.player_prize).encode() + "$\n".encode()
+            return "!Player won: ".encode() + str(self.player_prize).encode() + "$\n".encode()
 
-        return "Player lost: ".encode() + str(abs(self.player_prize)).encode() + "$\n".encode()
+        return "!Player lost: ".encode() + str(abs(self.player_prize)).encode() + "$\n".encode()
 
     def request_msg_again(self):
         self.client.send("?Invalid value. please try again".encode())
@@ -180,7 +180,7 @@ class Game:
                 if( self.dealer.discard_three() == False ):   # if discard failed (deck is empty), end game.
                     self.finish_game()
 
-                self.client.send("!Round ".encode() + str(self.round_count).encode() + " tie breaker:\n".encode()
+                self.client.send("?Round ".encode() + str(self.round_count).encode() + " tie breaker:\n".encode()
                                  + "Going to war! \n 3 cards were discarded.\n".encode())
 
                 self.player_card = self.dealer.deal_card()
