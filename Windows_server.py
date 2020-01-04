@@ -136,7 +136,7 @@ class Game:
         self.client.send("?Invalid value. please try again".encode())
 
     def sendStatus(self):
-        self.client.send("!Current round: ".encode() + self.round_count.encode() + "\n".encode()
+        self.client.send("?Current round: ".encode() + self.round_count.encode() + "\n".encode()
                          + "Player won: ".encode() + self.player_prize.encode() + '\n'.encode())
 
 
