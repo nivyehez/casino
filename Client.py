@@ -14,17 +14,13 @@ while True:
     waiting = True
     while waiting:
         try:
-            answer = s.recv(1024).decode()      # Get message from server
-            print("1\n")
+            answer = s.recv(2048).decode()      # Get message from server
             if answer == '':
                 continue
             elif answer == "denied":
                 print("denied\n")
                 s.close()
                 sys.exit(0)
-            else:
-                print(answer[1: len(answer)] + '\n')
-                print("2\n")
         except:
             print("SERVER ERROR. EXITING GAME\n")
             s.close()
@@ -33,10 +29,13 @@ while True:
             waiting = False
 
 
-    if answer[0] == '!':
+    if answer.find('#') == -1:
+        print(answer)
         continue
 
-    elif answer[0] == '?':
+    else:
+        answer = answer.replace('#', '')
+        print(answer)
         #in order to seperate the choices, "denumerated" them from string to a number(code-wise only)
         while True:
             choice = input("1 - status\n"
