@@ -1,0 +1,6 @@
+
+1. write an external documentation file that includes descriptions of all the funnctions
+
+2. finish the flow chart of the game (states machine)
+
+3. fight ISIS
