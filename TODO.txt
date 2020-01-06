@@ -3,4 +3,6 @@
 
 2. finish the flow chart of the game (states machine)
 
-3. fight ISIS
+3. add screenshots to the document, in order to show it works as expected
+
+4. fight ISIS
