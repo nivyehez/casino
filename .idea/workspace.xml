@@ -19,7 +19,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunManager" selected="Python.Windows_server">
     <configuration name="Client" type="PythonConfigurationType" factoryName="Python" temporary="true">
@@ -110,9 +110,10 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
-    <state x="0" y="227" key="SettingsEditor" timestamp="1578299981056">
-      <screen x="0" y="0" width="1920" height="1160" />
+    <state x="0" y="193" key="SettingsEditor" timestamp="1578730320827">
+      <screen x="0" y="0" width="1280" height="984" />
     </state>
+    <state x="0" y="193" key="SettingsEditor/0.0.1280.984@0.0.1280.984" timestamp="1578730320827" />
     <state x="0" y="227" key="SettingsEditor/0.0.1920.1160@0.0.1920.1160" timestamp="1578299981056" />
     <state x="656" y="405" key="com.intellij.ide.util.TipDialog" timestamp="1578299665753">
       <screen x="0" y="0" width="1920" height="1160" />

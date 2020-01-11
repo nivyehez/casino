@@ -34,7 +34,7 @@ class Dealer:
         deck = []
         for n in (list(range(2,14))):           #
             for k in ['c', 'd', 'h', 's']:      # Create deck
-                deck.append(Card(n, k))         #
+                deck.append(Card(n%3 + 1, k))       #TODO: FIX n%3+1 to n
 
         random.shuffle(deck)    # shuffle deck
         self.deck = deck        # Make deck an attribute of Dealer
@@ -164,7 +164,7 @@ class Game:
                 bet = msg[1: len(msg)]  # Extract the bet from the message
                 return int(bet)         # Return the bet
 
-            if( exp == 'o' ):   # If the client replied 'w'(war) or 'f'(forfeit)
+            if exp == 'o':   # If the client replied 'w'(war) or 'f'(forfeit)
                 return msg[1]   # Extract the client's choice from the message
 
     # **************************************************************************************************#
@@ -177,8 +177,12 @@ class Game:
 
     #   Function implementation:
     def send_status(self):
-        self.client.send("#Current round: ".encode() + str(self.round_count).encode() + "\n".encode()
-                         + "Player won: ".encode() + str(self.player_prize).encode() + '$\n'.encode())
+        if self.player_prize >= 0:
+            self.client.send("#Current round: ".encode() + str(self.round_count).encode() + "\n".encode()
+                             + "Player won: ".encode() + str(self.player_prize).encode() + '$\n'.encode())
+        else:
+            self.client.send("#Current round: ".encode() + str(self.round_count).encode() + "\n".encode()
+                             + "Dealer won: ".encode() + str(abs(self.player_prize)).encode() + '$\n'.encode())
     # **************************************************************************************************#
 
     # **************************************************************************************************#
@@ -204,7 +208,7 @@ class Game:
 
     #   Function implementation:
     def print_player_profit(self):
-        if( self.player_prize >= 0 ):
+        if self.player_prize >= 0:
             return "Player won: ".encode() + str(self.player_prize).encode() + "$\n".encode()
 
         return "Player lost: ".encode() + str(abs(self.player_prize)).encode() + "$\n".encode()
@@ -220,17 +224,6 @@ class Game:
     def request_msg_again(self):
         self.client.send("#Invalid value. please try again".encode())
     # **************************************************************************************************#
-
-    # **************************************************************************************************#
-    #   Function name: request_msg_again
-    #   Input: None
-    #   Output: None
-    #   Description: Sends the client a request to send his message again
-
-    #   Function implementation:
-    def sendStatus(self):
-        self.client.send("#Current round: ".encode() + self.round_count.encode() + "\n".encode()
-                         + "Player won: ".encode() + self.player_prize.encode() + '\n'.encode())
 
     # **************************************************************************************************#
     #   Function name: request_msg_again
@@ -332,8 +325,8 @@ class Game:
                 self.client.send("Round ".encode() + str(self.round_count).encode() + " tie breaker:\n".encode()
                                  + "Player surrendered! \n".encode()
                                  + "The bet: ".encode() + str(bet).encode() + "$\n".encode()
-                                 + "Dealer won: ".encode() + str(bet/2).encode() + "\n".encode()
-                                 + "Player won: ".encode() + str(bet/2).encode() + "\n".encode())
+                                 + "Dealer won: ".encode() + str(bet/2).encode() + "$\n".encode()
+                                 + "Player won: ".encode() + str(bet/2).encode() + "$\n".encode())
                 return  # start next round
     # ***********************************************************************************************************#
 
