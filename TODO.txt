@@ -1,8 +1,5 @@
+Remaining tasks - 
 
-1. write an external documentation file that includes descriptions of all the funnctions
-
-2. finish the flow chart of the game (states machine)
-
-3. add screenshots to the document, in order to show it works as expected
-
-4. fight ISIS
+1. Missing screenshots(& add them to the doc) - 
+	1.1. Dealer wins a round
+2. Add the IP thingy
