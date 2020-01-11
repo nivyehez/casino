@@ -389,9 +389,8 @@ class Game:
 # _________________________connections and threads management____________________________
 def wait_client():
     s = socket.socket()          # Create a socket object
-    host = socket.gethostname()  # Get local machine name
     port = 12345                 # Reserve a port for your service.
-    s.bind((host, port))         # Bind to the port
+    s.bind(("0.0.0.0", port))    # Bind to the port (0.0.0.0 means listen to all IP's)
 
     while True:
         s.listen(5)                    # Now wait for client connection.

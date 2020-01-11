@@ -7,7 +7,7 @@ import sys
 s = socket.socket()          # Create a socket object
 host = socket.gethostname()  # Get local machine name
 port = 12345                 # Reserve a port for your service.
-s.connect((host, port))
+s.connect((host, port))     # TODO: change host to local IP by getting it as an input from the user
 # ---------------------------------------------------------------------------#
 
 # -------------------------Get message from server---------------------------#
