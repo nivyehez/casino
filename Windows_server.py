@@ -32,9 +32,9 @@ class Dealer:
 
     def __init__(self):
         deck = []
-        for n in (list(range(2,14))):           #
+        for n in (list(range(2, 3))):           #
             for k in ['c', 'd', 'h', 's']:      # Create deck
-                deck.append(Card(n%3 + 1, k))       #TODO: FIX n%3+1 to n
+                deck.append(Card(n, k))         #
 
         random.shuffle(deck)    # shuffle deck
         self.deck = deck        # Make deck an attribute of Dealer
@@ -248,6 +248,10 @@ class Game:
     def play_round(self):
 
         self.round_count += 1   # update round_count
+
+        if self.round_count > 1:    # send player his current card (check if not first round because at first round the msg is sent with the start game msg)
+            self.client.send(("Your current card: " + self.player_card.get_card() + '\n').encode())
+
         bet = self.get_bet()    # get bet from client
 
         if( self.calc_winner() == "player" ):   # if the player won
@@ -259,7 +263,7 @@ class Game:
 
             return  #start next round
 
-        if ( self.calc_winner() == "dealer" ):  # if the dealer won
+        if self.calc_winner() == "dealer":  # if the dealer won
             self.player_prize -= bet
             self.client.send("The results of round ".encode() + str(self.round_count).encode() + ":\n".encode()
                              + "Dealer won: ".encode() + str(bet).encode() + "$\n".encode()
@@ -358,6 +362,7 @@ class Game:
             # ----------------------------------------------------------------
 
         if answer == 'n':        # if player chose not to play
+            self.c
             self.client.close()  # close socket
             sys.exit()           # shut down thread
 
@@ -379,9 +384,9 @@ class Game:
 
         return "tie"
     # **************************************************************************************************#
-#________________________________Game functions END___________________________________________
+# ________________________________Game functions END___________________________________________
 
-#_________________________connections and threads management____________________________
+# _________________________connections and threads management____________________________
 def wait_client():
     s = socket.socket()          # Create a socket object
     host = socket.gethostname()  # Get local machine name

@@ -2,15 +2,15 @@ import socket               # Import socket module
 import time
 import sys
 
-#-----------------Create connection with server----------------------------#
+# -----------------Create connection with server----------------------------#
 
 s = socket.socket()          # Create a socket object
 host = socket.gethostname()  # Get local machine name
 port = 12345                 # Reserve a port for your service.
 s.connect((host, port))
-#---------------------------------------------------------------------------#
+# ---------------------------------------------------------------------------#
 
-#-------------------------Get message from server---------------------------#
+# -------------------------Get message from server---------------------------#
 while True:
     waiting = True
     while waiting:
@@ -28,7 +28,7 @@ while True:
             sys.exit(0)     # exit program
         else:
             waiting = False                     # message received successfully
-#----------------------------------------------------------------------------#
+# ----------------------------------------------------------------------------#
 
 # Explanation about the server->client protocol:
 # When the server sends a message that requires client's response,
@@ -59,10 +59,10 @@ while True:
                 break
             else:                                       # Input is invalid
                 print("Please enter a valid input \n")
-        #--------------------------------------------------------------------#
+        # --------------------------------------------------------------------#
 
-        #-------------------Handling the user's choice------------------------#
-        #CLIENT->SERVER PROTOCOL:
+        # -------------------Handling the user's choice------------------------#
+        # CLIENT->SERVER PROTOCOL:
         # 's' = status
         # 'b' = bet. followed by the amount to bet
         # 'o' = war options. The next char can be 'w' or 'f' (war or forfeit)
@@ -95,6 +95,8 @@ while True:
 
         elif choice == '7':  # send no
             msg = "an".encode()
+            s.close()   # close socket
+            sys.exit()  # close program
 
         s.send(msg)     # send message
         # -------------------------------------------------------------------#
