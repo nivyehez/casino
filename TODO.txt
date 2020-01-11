@@ -1,0 +1,9 @@
+Remaining tasks - 
+
+1. Missing screenshots(& add them to the doc) - 
+	1.1. Dealer wins a round
+	1.2. Deck is over message
+	1.3. Player chooses to play again, after deck is over
+	1.4. Player chose to not play again, after deck is over.
+	1.5. proof that quit works
+2. Add the IP thingy
